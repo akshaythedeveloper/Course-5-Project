@@ -3,11 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="eaeb075a-c2c9-4fb0-9ee2-cbda5d86544b" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/quora-api/quora-api.iml" afterPath="$PROJECT_DIR$/quora-api/quora-api.iml" />
-      <change beforePath="$PROJECT_DIR$/quora-api/src/main/resources/application.yaml" afterPath="$PROJECT_DIR$/quora-api/src/main/resources/application.yaml" />
-      <change beforePath="$PROJECT_DIR$/quora-db/src/main/resources/config/localhost.properties" afterPath="$PROJECT_DIR$/quora-db/src/main/resources/config/localhost.properties" />
-      <change beforePath="$PROJECT_DIR$/quora-db/target/classes/config/localhost.properties" afterPath="$PROJECT_DIR$/quora-db/target/classes/config/localhost.properties" />
-      <change beforePath="$PROJECT_DIR$/quora-db/target/quora-db.jar" afterPath="$PROJECT_DIR$/quora-db/target/quora-db.jar" />
     </list>
     <ignored path="$PROJECT_DIR$/quora-service/target/" />
     <ignored path="$PROJECT_DIR$/quora-api/target/" />
@@ -472,12 +467,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1539799752445</updated>
-      <workItem from="1539799753837" duration="12454000" />
+      <workItem from="1539799753837" duration="12740000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="12454000" />
+    <option name="totallyTimeSpent" value="12740000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1680" height="953" extended-state="0" />
