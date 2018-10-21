@@ -1,5 +1,7 @@
 package com.upgrad.quora.service.entity;
 
+import com.sun.istack.internal.NotNull;
+
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
@@ -16,10 +18,12 @@ public class QuestionEntity implements Serializable {
 
     @Column(name = "uuid")
     @Size(max = 200)
+    @NotNull
     private String uuid;
 
     @Column(name = "content")
     @Size(max = 200)
+    @NotNull
     private String content;
 
     @Column(name = "date")
@@ -27,6 +31,7 @@ public class QuestionEntity implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @NotNull
     private UsersEntity user;
 
     public Integer getId() {

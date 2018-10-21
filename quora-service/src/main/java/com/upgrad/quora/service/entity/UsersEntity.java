@@ -1,6 +1,7 @@
 package com.upgrad.quora.service.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 
@@ -15,30 +16,37 @@ public class UsersEntity implements Serializable {
 
     @Column(name = "uuid")
     @Size(max = 200)
+    @NotNull
     private String uuid;
 
     @Column(name = "firstname")
     @Size(max = 30)
+    @NotNull
     private String firstname;
 
     @Column(name = "lastname")
     @Size(max = 30)
+    @NotNull
     private String lastname;
 
     @Column(name = "username")
     @Size(max = 30)
+    @NotNull
     private String username;
 
     @Column(name = "email")
     @Size(max = 50)
+    @NotNull
     private String email;
 
     @Column(name = "password")
     @Size(max = 225)
+    @NotNull
     private String password;
 
     @Column(name = "salt")
     @Size(max = 200)
+    @NotNull
     private String salt;
 
     @Column(name = "country")
