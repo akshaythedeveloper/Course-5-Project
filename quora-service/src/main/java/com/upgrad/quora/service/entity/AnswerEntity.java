@@ -11,28 +11,28 @@ import java.time.ZonedDateTime;
 public class AnswerEntity implements Serializable {
 
     @Id
-    @Column(name = "ID")
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "UUID")
+    @Column(name = "uuid")
     @Size(max = 200)
     private String uuid;
 
-    @Column(name = "ANS")
+    @Column(name = "ans")
     @Size(max = 255)
     private String ans;
 
-    @Column(name = "DATE")
+    @Column(name = "date")
     private ZonedDateTime date;
 
     @ManyToOne
-    @JoinColumn(name = "USER_ID")
+    @JoinColumn(name = "user_id")
     private UsersEntity user;
 
     @ManyToOne
-    @JoinColumn(name = "QUESTION_ID")
-    private QuestionEntity que;
+    @JoinColumn(name = "question_id")
+    private QuestionEntity question;
 
     public Integer getId() {
         return id;
@@ -74,11 +74,11 @@ public class AnswerEntity implements Serializable {
         this.user = user;
     }
 
-    public QuestionEntity getQue() {
-        return que;
+    public QuestionEntity getQuestion() {
+        return question;
     }
 
-    public void setQue(QuestionEntity que) {
-        this.que = que;
+    public void setQuestion(QuestionEntity question) {
+        this.question = question;
     }
 }
