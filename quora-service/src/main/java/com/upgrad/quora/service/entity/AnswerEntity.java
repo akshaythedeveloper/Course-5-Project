@@ -1,5 +1,9 @@
 package com.upgrad.quora.service.entity;
 
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 import javax.persistence.*;
 import javax.print.attribute.standard.MediaSize;
 import javax.validation.constraints.NotNull;
@@ -87,4 +91,16 @@ public class AnswerEntity implements Serializable {
     public void setQuestion(QuestionEntity question) {
         this.question = question;
     }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder().append(this).hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
+    }
+
+
 }
