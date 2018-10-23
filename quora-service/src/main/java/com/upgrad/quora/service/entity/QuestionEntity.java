@@ -1,6 +1,5 @@
 package com.upgrad.quora.service.entity;
 
-import com.sun.istack.internal.NotNull;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -21,12 +20,10 @@ public class QuestionEntity implements Serializable {
 
     @Column(name = "uuid")
     @Size(max = 200)
-    @NotNull
     private String uuid;
 
     @Column(name = "content")
     @Size(max = 200)
-    @NotNull
     private String content;
 
     @Column(name = "date")
@@ -34,7 +31,6 @@ public class QuestionEntity implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @NotNull
     private UsersEntity user;
 
     public Integer getId() {
@@ -76,6 +72,7 @@ public class QuestionEntity implements Serializable {
     public void setUser(UsersEntity user) {
         this.user = user;
     }
+
 
     @Override
     public int hashCode() {
