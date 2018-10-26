@@ -4,18 +4,14 @@ import com.upgrad.quora.service.dao.UsersDao;
 import com.upgrad.quora.service.entity.UsersEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-
 
 @Service
-public class SignupBusinessService {
-
+public class UsersBusinessService {
     @Autowired
     private UsersDao usersDao;
 
-    @org.springframework.transaction.annotation.Transactional(propagation = Propagation.REQUIRED)
-    public UsersEntity signup(UsersEntity usersEntity) {
-        return usersDao.createUser(usersEntity);
+    public UsersEntity userProfile(final String userUuid) {
+        return usersDao.userProfile(userUuid);
 
     }
 }

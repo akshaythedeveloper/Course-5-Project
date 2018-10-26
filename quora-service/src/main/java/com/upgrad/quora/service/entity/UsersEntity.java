@@ -11,6 +11,11 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "users" , schema = "quora")
+@NamedQueries(
+        {
+                @NamedQuery(name = "userByUuid" , query = "select u from UsersEntity u where u.uuid = :uuid")
+        }
+)
 public class UsersEntity implements Serializable {
 
     @Id
@@ -178,13 +183,4 @@ public class UsersEntity implements Serializable {
     }
 
 
-    @Override
-    public int hashCode() {
-        return new HashCodeBuilder().append(this).hashCode();
-    }
-
-    @Override
-    public String toString() {
-        return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
-    }
 }

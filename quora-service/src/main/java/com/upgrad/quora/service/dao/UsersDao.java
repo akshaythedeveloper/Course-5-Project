@@ -17,4 +17,9 @@ public class UsersDao {
         entityManager.persist(usersEntity);
         return usersEntity;
     }
+
+    public UsersEntity userProfile(final String userUuid) {
+        return entityManager.createNamedQuery("userByUuid", UsersEntity.class).setParameter("uuid" , userUuid).getSingleResult();
+
+    }
 }

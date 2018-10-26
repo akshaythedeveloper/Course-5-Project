@@ -1,5 +1,7 @@
 package com.upgrad.quora.api.controller;
 
+import com.upgrad.quora.api.model.SigninResponse;
+import com.upgrad.quora.api.model.SignoutResponse;
 import com.upgrad.quora.api.model.SignupUserRequest;
 import com.upgrad.quora.api.model.SignupUserResponse;
 import com.upgrad.quora.service.business.SignupBusinessService;
@@ -29,8 +31,13 @@ public class UserController {
         usersEntity.setUuid(UUID.randomUUID().toString());
         usersEntity.setFirstname(signupUserRequest.getFirstName());
         usersEntity.setLastname(signupUserRequest.getLastName());
+        usersEntity.setUsername(signupUserRequest.getUserName());
         usersEntity.setEmail(signupUserRequest.getEmailAddress());
         usersEntity.setPassword(signupUserRequest.getPassword());
+        usersEntity.setCountry(signupUserRequest.getCountry());
+        usersEntity.setDob(signupUserRequest.getDob());
+        usersEntity.setAboutme(signupUserRequest.getAboutMe());
+        usersEntity.setContactnumber(signupUserRequest.getContactNumber());
         usersEntity.setSalt("1234abc");
 
 
@@ -39,4 +46,14 @@ public class UserController {
 
         return new ResponseEntity<SignupUserResponse>(userResponse, HttpStatus.CREATED);
     }
+
+  /**  @RequestMapping(method = RequestMethod.POST , path = "/user/signin" , consumes = MediaType.APPLICATION_JSON_UTF8_VALUE , produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<SigninResponse> signin() {
+
+    }
+
+    @RequestMapping(method = RequestMethod.POST , path = "/user/signout" , consumes = MediaType.APPLICATION_JSON_UTF8_VALUE , produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<SignoutResponse> signout() {
+
+    }**/
 }
