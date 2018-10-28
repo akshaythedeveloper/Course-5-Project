@@ -35,10 +35,11 @@ public class UserController {
         usersEntity.setEmail(signupUserRequest.getEmailAddress());
         usersEntity.setPassword(signupUserRequest.getPassword());
         usersEntity.setCountry(signupUserRequest.getCountry());
-        usersEntity.setDob(signupUserRequest.getDob());
         usersEntity.setAboutme(signupUserRequest.getAboutMe());
+        usersEntity.setDob(signupUserRequest.getDob());
         usersEntity.setContactnumber(signupUserRequest.getContactNumber());
-        usersEntity.setSalt("1234abc");
+        usersEntity.setRole("nonadmin");
+        usersEntity.setSalt("abc@123");
 
 
         final UsersEntity createdUsersEntity = signupBusinessService.signup(usersEntity);
@@ -47,7 +48,7 @@ public class UserController {
         return new ResponseEntity<SignupUserResponse>(userResponse, HttpStatus.CREATED);
     }
 
-  /**  @RequestMapping(method = RequestMethod.POST , path = "/user/signin" , consumes = MediaType.APPLICATION_JSON_UTF8_VALUE , produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    /**@RequestMapping(method = RequestMethod.POST , path = "/user/signin" , consumes = MediaType.APPLICATION_JSON_UTF8_VALUE , produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<SigninResponse> signin() {
 
     }

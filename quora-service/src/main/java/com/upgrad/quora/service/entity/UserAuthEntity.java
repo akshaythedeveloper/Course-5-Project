@@ -12,7 +12,7 @@ import java.io.Serializable;
 import java.time.ZonedDateTime;
 
 @Entity
-@Table(name = "userAuth" , schema = "quora")
+@Table(name = "user_Auth" , schema = "public")
 public class UserAuthEntity implements Serializable {
 
     @Id

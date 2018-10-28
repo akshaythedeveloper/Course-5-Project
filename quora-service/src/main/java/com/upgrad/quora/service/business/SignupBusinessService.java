@@ -5,6 +5,7 @@ import com.upgrad.quora.service.entity.UsersEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
@@ -13,7 +14,7 @@ public class SignupBusinessService {
     @Autowired
     private UsersDao usersDao;
 
-    @org.springframework.transaction.annotation.Transactional(propagation = Propagation.REQUIRED)
+    @Transactional(propagation = Propagation.REQUIRED)
     public UsersEntity signup(UsersEntity usersEntity) {
         return usersDao.createUser(usersEntity);
 
