@@ -20,6 +20,7 @@
 /Users/sunny/Desktop/API PROJECT/Trello_quora/quora-api/target/generated-sources/./com/upgrad/quora/api/model/SignupUserRequest.java
 /Users/sunny/Desktop/API PROJECT/Trello_quora/quora-api/target/generated-sources/./com/upgrad/quora/api/model/QuestionRequest.java
 /Users/sunny/Desktop/API PROJECT/Trello_quora/quora-api/target/generated-sources/./io/swagger/api/ApiOriginFilter.java
+/Users/sunny/Desktop/API PROJECT/Trello_quora/quora-api/src/main/java/com/upgrad/quora/api/exception/RestExceptionHandler.java
 /Users/sunny/Desktop/API PROJECT/Trello_quora/quora-api/target/generated-sources/./com/upgrad/quora/api/model/QuestionEditRequest.java
 /Users/sunny/Desktop/API PROJECT/Trello_quora/quora-api/src/main/java/com/upgrad/quora/api/controller/AdminController.java
 /Users/sunny/Desktop/API PROJECT/Trello_quora/quora-api/target/generated-sources/./com/upgrad/quora/api/model/AnswerDetailsResponse.java

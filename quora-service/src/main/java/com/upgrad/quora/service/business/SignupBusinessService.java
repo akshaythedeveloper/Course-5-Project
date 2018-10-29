@@ -2,6 +2,7 @@ package com.upgrad.quora.service.business;
 
 import com.upgrad.quora.service.dao.UsersDao;
 import com.upgrad.quora.service.entity.UsersEntity;
+import com.upgrad.quora.service.exception.SignUpRestrictedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -16,7 +17,7 @@ public class SignupBusinessService {
 
     @Transactional(propagation = Propagation.REQUIRED)
     public UsersEntity signup(UsersEntity usersEntity) {
-        return usersDao.createUser(usersEntity);
+        usersDao.createUser(usersEntity);
 
     }
 }
