@@ -15,8 +15,9 @@ public class UsersDao {
     private EntityManager entityManager;
 
     public UsersEntity createUser(UsersEntity usersEntity) {
-        entityManager.persist(usersEntity);
-        return usersEntity;
+            entityManager.persist(usersEntity);
+            return usersEntity;
+
     }
 
     public UsersEntity userProfile(final String userUuid) {
