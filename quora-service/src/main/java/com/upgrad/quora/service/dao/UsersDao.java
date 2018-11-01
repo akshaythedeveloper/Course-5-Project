@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
-import java.util.LinkedList;
+import javax.validation.ConstraintViolationException;
 
 @Repository
 public class UsersDao {
@@ -18,8 +18,12 @@ public class UsersDao {
     private EntityManager entityManager;
 
     public UsersEntity createUser(UsersEntity usersEntity) {
-                entityManager.persist(usersEntity);
-                return usersEntity;
+        try {
+            entityManager.persist(usersEntity);
+            return usersEntity;
+        } catch (ConstraintViolationException cve) {
+            return null;
+        }
     }
 
     public UsersEntity userProfile(final String userUuid) {
@@ -32,9 +36,17 @@ public class UsersDao {
 
     }
 
-    public UsersEntity getUserByUserName(final String email) {
+    public UsersEntity getUserByEmail(final String email) {
         try {
-            return entityManager.createNamedQuery("userByUserName", UsersEntity.class).setParameter("email", email).getSingleResult();
+            return entityManager.createNamedQuery("userByEmail", UsersEntity.class).setParameter("email", email).getSingleResult();
+        } catch (NoResultException nre) {
+            return null;
+        }
+    }
+
+    public UsersEntity getUserByUsername(final String username) {
+        try {
+            return entityManager.createNamedQuery("userByUsername", UsersEntity.class).setParameter("username", username).getSingleResult();
         } catch (NoResultException nre) {
             return null;
         }

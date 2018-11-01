@@ -18,20 +18,21 @@ public class AuthenticationService {
     private UsersDao usersDao;
 
     @Autowired
-    private PasswordCryptographyProvider CryptographyProvider;
+    private PasswordCryptographyProvider cryptographyProvider;
 
     @Transactional(propagation = Propagation.REQUIRED)
     public UserAuthEntity authenticate(final String username, final String password) throws AuthenticationFailedException {
-        UsersEntity usersEntity = usersDao.getUserByUserName(username);
+        UsersEntity usersEntity = usersDao.getUserByUsername(username);
         if (usersEntity == null) {
             throw new AuthenticationFailedException("ATH-001", "This username does not exist");
         }
 
-        final String encryptedPassword = CryptographyProvider.encrypt(password, usersEntity.getSalt());
+        final String encryptedPassword = cryptographyProvider.encrypt(password, usersEntity.getSalt());
         if (encryptedPassword.equals(usersEntity.getPassword())) {
             JwtTokenProvider jwtTokenProvider = new JwtTokenProvider(encryptedPassword);
             UserAuthEntity userAuthTokenEntity = new UserAuthEntity();
             userAuthTokenEntity.setUser(usersEntity);
+
             final ZonedDateTime now = ZonedDateTime.now();
             final ZonedDateTime expiresAt = now.plusHours(8);
 
@@ -41,11 +42,13 @@ public class AuthenticationService {
             userAuthTokenEntity.setExpiresAt(expiresAt);
 
             usersDao.createAuthToken(userAuthTokenEntity);
-
             usersDao.updateUser(usersEntity);
+
             userAuthTokenEntity.setLoginAt(now);
+
             return userAuthTokenEntity;
-        } else {
+        }
+        else {
             throw new AuthenticationFailedException("ATH-002", "Password failed");
         }
     }
