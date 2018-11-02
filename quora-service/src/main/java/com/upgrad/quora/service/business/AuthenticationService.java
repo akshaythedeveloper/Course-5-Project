@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.ZonedDateTime;
+import java.util.UUID;
 
 @Service
 public class AuthenticationService {
@@ -21,6 +22,7 @@ public class AuthenticationService {
     private PasswordCryptographyProvider cryptographyProvider;
 
     @Transactional(propagation = Propagation.REQUIRED)
+
     public UserAuthEntity authenticate(final String username, final String password) throws AuthenticationFailedException {
         UsersEntity usersEntity = usersDao.getUserByUsername(username);
         if (usersEntity == null) {
@@ -32,19 +34,17 @@ public class AuthenticationService {
             JwtTokenProvider jwtTokenProvider = new JwtTokenProvider(encryptedPassword);
             UserAuthEntity userAuthTokenEntity = new UserAuthEntity();
             userAuthTokenEntity.setUser(usersEntity);
+            userAuthTokenEntity.setUuid(UUID.randomUUID().toString());
 
             final ZonedDateTime now = ZonedDateTime.now();
             final ZonedDateTime expiresAt = now.plusHours(8);
 
             userAuthTokenEntity.setAccessToken(jwtTokenProvider.generateToken(usersEntity.getUuid(), now, expiresAt));
-
             userAuthTokenEntity.setLoginAt(now);
             userAuthTokenEntity.setExpiresAt(expiresAt);
 
             usersDao.createAuthToken(userAuthTokenEntity);
             usersDao.updateUser(usersEntity);
-
-            userAuthTokenEntity.setLoginAt(now);
 
             return userAuthTokenEntity;
         }

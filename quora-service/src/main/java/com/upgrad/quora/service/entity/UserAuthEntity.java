@@ -1,5 +1,6 @@
 package com.upgrad.quora.service.entity;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -44,7 +45,6 @@ public class UserAuthEntity implements Serializable {
     private ZonedDateTime loginAt;
 
     @Column(name = "logout_at")
-    @Null
     private ZonedDateTime logoutAt;
 
     public Integer getId() {
@@ -101,6 +101,11 @@ public class UserAuthEntity implements Serializable {
 
     public void setLogoutAt(ZonedDateTime logoutAt) {
         this.logoutAt = logoutAt;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return new EqualsBuilder().append(this, obj).isEquals();
     }
 
     @Override
