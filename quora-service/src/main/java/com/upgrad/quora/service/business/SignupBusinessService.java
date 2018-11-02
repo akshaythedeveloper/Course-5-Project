@@ -21,6 +21,9 @@ public class SignupBusinessService {
     @Transactional(propagation = Propagation.REQUIRED)
     public UsersEntity signup(UsersEntity usersEntity) throws SignUpRestrictedException {
 
+        /* Here we encrypt the password.
+         * When user enters the password it gets encrypted and then saves in the database
+         * */
         String[] encryptedText = cryptographyProvider.encrypt(usersEntity.getPassword());
         usersEntity.setSalt(encryptedText[0]);
         usersEntity.setPassword(encryptedText[1]);
@@ -28,23 +31,23 @@ public class SignupBusinessService {
 
 
 
-
+        //Object user1 saves the result of query which checks user is already registered or not with current username.
         UsersEntity user1 = usersDao.getUserByUsername(usersEntity.getUsername());
         if(user1 == null) {
-            usersDao.createUser(usersEntity);
+            //Do nothing
         } else {
             throw new SignUpRestrictedException("SGR-001", "Try any other Username, this Username has already been taken");
         }
 
-
+        //Object user2 saves the result of query which checks user is already registered or not with current email.
         UsersEntity user2 = usersDao.getUserByEmail(usersEntity.getEmail());
         if(user2 == null) {
-            usersDao.createUser(usersEntity);
+           usersDao.createUser(usersEntity);
+           return usersEntity;
         } else {
             throw new SignUpRestrictedException("SGR-002", "This user has already been registered, try with any other emailId");
         }
 
-        return usersEntity;
 
 
 
