@@ -4,6 +4,7 @@ import com.upgrad.quora.service.dao.UsersDao;
 import com.upgrad.quora.service.entity.UserAuthEntity;
 import com.upgrad.quora.service.entity.UsersEntity;
 import com.upgrad.quora.service.exception.AuthenticationFailedException;
+import com.upgrad.quora.service.exception.SignOutRestrictedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -22,7 +23,6 @@ public class AuthenticationService {
     private PasswordCryptographyProvider cryptographyProvider;
 
     @Transactional(propagation = Propagation.REQUIRED)
-
     public UserAuthEntity authenticate(final String username, final String password) throws AuthenticationFailedException {
         UsersEntity usersEntity = usersDao.getUserByUsername(username);
         if (usersEntity == null) {
@@ -52,4 +52,16 @@ public class AuthenticationService {
             throw new AuthenticationFailedException("ATH-002", "Password failed");
         }
     }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public UserAuthEntity signout(final String accessToken) throws SignOutRestrictedException {
+        UserAuthEntity userAuthEntity = usersDao.getUserAuthToken(accessToken);
+        if (userAuthEntity == null) {
+            throw new SignOutRestrictedException("SGR-001", "User is not Signed in");
+        }
+        return userAuthEntity;
+
+    }
+
+
 }

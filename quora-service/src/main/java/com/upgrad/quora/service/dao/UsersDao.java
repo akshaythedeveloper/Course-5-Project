@@ -61,4 +61,14 @@ public class UsersDao {
         entityManager.merge(updatedUserEntity);
     }
 
+    public UserAuthEntity getUserAuthToken(final String accessToken) {
+        try {
+            return entityManager.createNamedQuery("userAuthTokenByAccessToken", UserAuthEntity.class).setParameter("accessToken", accessToken).getSingleResult();
+        } catch (NoResultException nre) {
+
+            return null;
+        }
+
+    }
+
 }
