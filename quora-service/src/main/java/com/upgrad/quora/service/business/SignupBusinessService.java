@@ -25,19 +25,28 @@ public class SignupBusinessService {
         usersEntity.setSalt(encryptedText[0]);
         usersEntity.setPassword(encryptedText[1]);
 
-        /**UsersEntity user1 = usersDao.getUserByUsername(usersEntity.getUsername());
-        if(user1 != null) {
+
+
+
+
+        UsersEntity user1 = usersDao.getUserByUsername(usersEntity.getUsername());
+        if(user1 == null) {
+            usersDao.createUser(usersEntity);
+        } else {
             throw new SignUpRestrictedException("SGR-001", "Try any other Username, this Username has already been taken");
-        }**/
-
-
-
-        UsersEntity user1 = usersDao.getUserByEmail(usersEntity.getEmail());
-        if(user1 != null) {
-            throw new SignUpRestrictedException("SGR-001", "This user has already been registered, try with any other emailId");
         }
-        usersDao.createUser(usersEntity);
+
+
+        UsersEntity user2 = usersDao.getUserByEmail(usersEntity.getEmail());
+        if(user2 == null) {
+            usersDao.createUser(usersEntity);
+        } else {
+            throw new SignUpRestrictedException("SGR-002", "This user has already been registered, try with any other emailId");
+        }
+
         return usersEntity;
+
+
 
     }
 }
