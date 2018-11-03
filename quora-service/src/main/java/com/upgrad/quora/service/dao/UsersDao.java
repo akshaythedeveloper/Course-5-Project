@@ -14,6 +14,8 @@ import java.util.LinkedList;
 @Repository
 public class UsersDao {
 
+    private static final String checkAuthToken = "checkAuthToken";
+
     @PersistenceContext
     private EntityManager entityManager;
 
@@ -45,8 +47,22 @@ public class UsersDao {
         return userAuthTokenEntity;
     }
 
+
+
     public void updateUser(final UsersEntity updatedUserEntity) {
         entityManager.merge(updatedUserEntity);
+    }
+
+    /** this method used to check the validity of the authorization token.
+     */
+    public UserAuthEntity checkAuthToken(final String authorizationToken) {
+        try {
+
+            return entityManager.createNamedQuery(checkAuthToken,UserAuthEntity.class).setParameter("accessToken", authorizationToken)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 
 }
