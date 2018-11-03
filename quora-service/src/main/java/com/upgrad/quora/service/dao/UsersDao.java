@@ -26,16 +26,6 @@ public class UsersDao {
         }
     }
 
-    public UsersEntity userProfile(final String userUuid) {
-        try {
-            return entityManager.createNamedQuery("userByUuid", UsersEntity.class).setParameter("uuid" , userUuid).getSingleResult();
-        } catch (NoResultException nre) {
-            return null;
-
-        }
-
-    }
-
     public UsersEntity getUserByEmail(final String email) {
         try {
             return entityManager.createNamedQuery("userByEmail", UsersEntity.class).setParameter("email", email).getSingleResult();
@@ -61,14 +51,25 @@ public class UsersDao {
         entityManager.merge(updatedUserEntity);
     }
 
+    public void updateUserAuth(final UserAuthEntity updatedUserAuthEntity) {
+        entityManager.merge(updatedUserAuthEntity);
+    }
+
     public UserAuthEntity getUserAuthToken(final String accessToken) {
         try {
             return entityManager.createNamedQuery("userAuthTokenByAccessToken", UserAuthEntity.class).setParameter("accessToken", accessToken).getSingleResult();
         } catch (NoResultException nre) {
-
             return null;
         }
 
+    }
+
+    public UsersEntity getUserByUuid(final String uuid) {
+        try {
+            return entityManager.createNamedQuery("userByUuid" ,UsersEntity.class).setParameter("uuid" , uuid).getSingleResult();
+        } catch (NoResultException nre) {
+            return null;
+        }
     }
 
 }
