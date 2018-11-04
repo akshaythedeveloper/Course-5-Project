@@ -72,6 +72,8 @@ public class questionsService {
         }
     }
 
+
+
     /**
      * The method below is used to check if the question is being asked by owner of the question
      *
@@ -103,6 +105,14 @@ public class questionsService {
     @Transactional(propagation = Propagation.REQUIRED)
     public void editQuestion(QuestionEntity question) {
         questionsDao.editQuestion(question);
+    }
+
+    /**
+     * The method below is used to delete the question.
+     */
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void deleteQuestion(QuestionEntity question) {
+        questionsDao.deleteQuestion(question);
     }
 
 

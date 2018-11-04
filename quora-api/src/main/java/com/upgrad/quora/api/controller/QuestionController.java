@@ -108,5 +108,23 @@ public class QuestionController {
         return new ResponseEntity<QuestionEditResponse>(questionEditResponse, HttpStatus.OK);
     }
 
+    /**
+     * The lines below implement the rest endpoint method delete a question
+     */
+    @RequestMapping(method = RequestMethod.DELETE, path = "/question/delete/{questionId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<QuestionDeleteResponse> userDelete(@PathVariable("questionId") final String questionUuId, @RequestHeader("authorization") final String authorization) throws AuthorizationFailedException, InvalidQuestionException {
+        UserAuthEntity authorizedUser = UsersBusinessService.getUserByAccessToken(authorization, ActionType.DELETE_QUESTION);
+
+        QuestionEntity question = questionsService.isUserQuestionOwner(questionUuId, authorizedUser, ActionType.DELETE_QUESTION);
+        questionsService.deleteQuestion(question);
+        QuestionDeleteResponse questionDeleteResponse = new QuestionDeleteResponse()
+                .id(question.getUuid())
+                .status("QUESTION DELETED");
+        return new ResponseEntity<QuestionDeleteResponse>(questionDeleteResponse, HttpStatus.OK);
+    }
+
+
+
+
 
 }

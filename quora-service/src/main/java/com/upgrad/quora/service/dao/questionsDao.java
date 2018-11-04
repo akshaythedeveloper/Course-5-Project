@@ -72,5 +72,11 @@ public class questionsDao {
         return question;
     }
 
+    /*** This method is used to delete the question*/
+    public void deleteQuestion(QuestionEntity question) {
+        entityManager.remove(question);
+
+    }
+
 
 }
