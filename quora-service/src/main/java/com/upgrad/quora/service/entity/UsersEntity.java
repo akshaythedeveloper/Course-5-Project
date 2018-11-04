@@ -3,6 +3,9 @@ package com.upgrad.quora.service.entity;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.jmx.export.annotation.ManagedNotification;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -15,7 +18,8 @@ import java.io.Serializable;
         {
                 @NamedQuery(name = "userByUuid" , query = "select u from UsersEntity u where u.uuid = :uuid"),
                 @NamedQuery(name = "userByEmail" , query = "select u from UsersEntity u where u.email = :email"),
-                @NamedQuery(name = "userByUsername" , query = "select u from UsersEntity u where u.username = :username")
+                @NamedQuery(name = "userByUsername" , query = "select u from UsersEntity u where u.username = :username"),
+                @NamedQuery(name = "userRole" , query = "select u from UsersEntity u where u.role = :role")
         }
 )
 public class UsersEntity implements Serializable {
@@ -23,6 +27,7 @@ public class UsersEntity implements Serializable {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Integer id;
 
     @Column(name = "uuid")

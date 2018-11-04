@@ -28,9 +28,6 @@ public class SignupBusinessService {
         usersEntity.setSalt(encryptedText[0]);
         usersEntity.setPassword(encryptedText[1]);
 
-
-
-
         //Object user1 saves the result of query which checks user is already registered or not with current username.
         UsersEntity user1 = usersDao.getUserByUsername(usersEntity.getUsername());
         if(user1 == null) {
@@ -47,9 +44,5 @@ public class SignupBusinessService {
         } else {
             throw new SignUpRestrictedException("SGR-002", "This user has already been registered, try with any other emailId");
         }
-
-
-
-
     }
 }

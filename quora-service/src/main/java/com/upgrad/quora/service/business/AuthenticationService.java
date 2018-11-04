@@ -5,6 +5,7 @@ import com.upgrad.quora.service.entity.UserAuthEntity;
 import com.upgrad.quora.service.entity.UsersEntity;
 import com.upgrad.quora.service.exception.AuthenticationFailedException;
 import com.upgrad.quora.service.exception.SignOutRestrictedException;
+import org.omg.CORBA.Current;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -59,6 +60,10 @@ public class AuthenticationService {
         if (userAuthEntity == null) {
             throw new SignOutRestrictedException("SGR-001", "User is not Signed in");
         }
+        final ZonedDateTime now = ZonedDateTime.now();
+        userAuthEntity.setLogoutAt(now);
+        usersDao.updateUserAuth(userAuthEntity);
+
         return userAuthEntity;
 
     }

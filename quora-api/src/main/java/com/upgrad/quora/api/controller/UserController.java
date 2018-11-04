@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.ZonedDateTime;
 import java.util.Base64;
 import java.util.UUID;
 
@@ -79,6 +80,7 @@ public class UserController {
 
 
         UserAuthEntity userAuthEntity = authenticationService.signout(accessToken);
+
         UsersEntity usersEntity = userAuthEntity.getUser();
 
         SignoutResponse signoutResponse = new SignoutResponse().id(usersEntity.getUuid()).message("SIGNED OUT SUCCESSFULLY");

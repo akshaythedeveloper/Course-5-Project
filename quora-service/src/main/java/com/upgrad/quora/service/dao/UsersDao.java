@@ -10,6 +10,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.validation.ConstraintViolationException;
+import java.time.ZonedDateTime;
 
 @Repository
 public class UsersDao {
@@ -66,10 +67,30 @@ public class UsersDao {
 
     public UsersEntity getUserByUuid(final String uuid) {
         try {
-            return entityManager.createNamedQuery("userByUuid" ,UsersEntity.class).setParameter("uuid" , uuid).getSingleResult();
+            return entityManager.createNamedQuery("userByUuid" , UsersEntity.class).setParameter("uuid" , uuid).getSingleResult();
         } catch (NoResultException nre) {
             return null;
         }
+    }
+
+    public UserAuthEntity getuserLogoutAtTime(final String accessToken) {
+        try {
+            return entityManager.createNamedQuery("userLogoutAtTime" , UserAuthEntity.class).setParameter("accessToken" , accessToken).getSingleResult();
+        } catch (NoResultException nre) {
+            return null;
+        }
+    }
+
+    public UsersEntity getUserRole(final String uuid) {
+        try {
+            return entityManager.createNamedQuery("userRole" , UsersEntity.class).setParameter("uuid" , uuid).getSingleResult();
+        } catch (NoResultException nre) {
+            return null;
+        }
+    }
+
+    public void deleteUser(final UsersEntity usersEntity) {
+        entityManager.remove(usersEntity);
     }
 
 }
