@@ -2,19 +2,19 @@ package com.upgrad.quora.service.dao;
 
 import com.upgrad.quora.service.entity.UserAuthEntity;
 import com.upgrad.quora.service.entity.UsersEntity;
-import com.upgrad.quora.service.exception.SignUpRestrictedException;
-import com.upgrad.quora.service.exception.UserNotFoundException;
+
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
-import java.util.LinkedList;
+
 
 @Repository
 public class UsersDao {
 
     private static final String checkAuthToken = "checkAuthToken";
+    private static final String USER_BY_UUID = "userByUuid";
 
     @PersistenceContext
     private EntityManager entityManager;

@@ -8,6 +8,9 @@ import com.upgrad.quora.service.entity.QuestionEntity;
 import com.upgrad.quora.service.entity.UserAuthEntity;
 import com.upgrad.quora.service.entity.UsersEntity;
 import com.upgrad.quora.service.exception.AuthorizationFailedException;
+import com.upgrad.quora.service.exception.InvalidQuestionException;
+import com.upgrad.quora.service.exception.QuestionNotFoundException;
+import com.upgrad.quora.service.exception.UserNotFoundException;
 import com.upgrad.quora.service.type.ActionType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +18,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.time.ZonedDateTime;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -32,7 +36,7 @@ public class QuestionController {
 
     /**
      * The lines below implement the rest endpoint method for creating question for authorized user.
-     * <p>
+     *
      * The questions can be created only the user who is logged in
      * An exception is thrown if the user is not logged in
      */
@@ -50,4 +54,39 @@ public class QuestionController {
         QuestionResponse questionResponse = new QuestionResponse().id(createdQuestion.getUuid()).status("QUESTION CREATED");
         return new ResponseEntity<QuestionResponse>(questionResponse, HttpStatus.CREATED);
     }
+
+    /**
+     * The lines below implement the rest endpoint method for getting all questions
+     * The questions can be viewed only by the users who are logged in
+     */
+
+    @RequestMapping(method = RequestMethod.GET, path = "/question/all/{userId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<QuestionDetailsResponse> getAllQuestionsByUser(@PathVariable("userId") final String uuId, @RequestHeader("authorization") final String authorization) throws AuthorizationFailedException, QuestionNotFoundException, UserNotFoundException {
+        UserAuthEntity authorizedUser = UsersBusinessService.getUserByAccessToken(authorization, ActionType.ALL_QUESTION_FOR_USER);
+        List<QuestionEntity> questionList = questionsService.getQuestionsForUser(uuId);
+        StringBuilder contentBuilder = new StringBuilder();
+        StringBuilder uuIdBuilder = new StringBuilder();
+        getContentsString(questionList, contentBuilder);
+        getUuIdString(questionList, uuIdBuilder);
+        QuestionDetailsResponse questionResponse = new QuestionDetailsResponse()
+                .id(uuIdBuilder.toString())
+                .content(contentBuilder.toString());
+        return new ResponseEntity<QuestionDetailsResponse>(questionResponse, HttpStatus.OK);
+    }
+
+    public static final StringBuilder getContentsString(List<QuestionEntity> questionList, StringBuilder builder) {
+        for (QuestionEntity questionObject : questionList) {
+            builder.append(questionObject.getContent()).append(",");
+        }
+        return builder;
+    }
+    public static final StringBuilder getUuIdString(List<QuestionEntity> questionList, StringBuilder uuIdBuilder) {
+
+        for (QuestionEntity questionObject : questionList) {
+            uuIdBuilder.append(questionObject.getUuid()).append(",");
+        }
+        return uuIdBuilder;
+    }
+
+
 }
