@@ -60,19 +60,6 @@ public class QuestionController {
      * The questions can be viewed only by the users who are logged in
      */
 
-    @RequestMapping(method = RequestMethod.GET, path = "/question/all/{userId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<QuestionDetailsResponse> getAllQuestionsByUser(@PathVariable("userId") final String uuId, @RequestHeader("authorization") final String authorization) throws AuthorizationFailedException, QuestionNotFoundException, UserNotFoundException {
-        UserAuthEntity authorizedUser = UsersBusinessService.getUserByAccessToken(authorization, ActionType.ALL_QUESTION_FOR_USER);
-        List<QuestionEntity> questionList = questionsService.getQuestionsForUser(uuId);
-        StringBuilder contentBuilder = new StringBuilder();
-        StringBuilder uuIdBuilder = new StringBuilder();
-        getContentsString(questionList, contentBuilder);
-        getUuIdString(questionList, uuIdBuilder);
-        QuestionDetailsResponse questionResponse = new QuestionDetailsResponse()
-                .id(uuIdBuilder.toString())
-                .content(contentBuilder.toString());
-        return new ResponseEntity<QuestionDetailsResponse>(questionResponse, HttpStatus.OK);
-    }
 
     public static final StringBuilder getContentsString(List<QuestionEntity> questionList, StringBuilder builder) {
         for (QuestionEntity questionObject : questionList) {
@@ -91,6 +78,25 @@ public class QuestionController {
     /**
      * The lines below implement the rest endpoint method for getting all questions
      * The questions can be viewed only by the users who are logged in
+     */
+
+    @RequestMapping(method = RequestMethod.GET, path = "/question/all", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<QuestionDetailsResponse> getAllQuestions(@RequestHeader final String authorization) throws AuthorizationFailedException, QuestionNotFoundException {
+        UserAuthEntity authorizedUser = UsersBusinessService.getUserByAccessToken(authorization, ActionType.ALL_QUESTION);
+        //Since the user is authorized, go for extracting questions for all users
+        List<QuestionEntity> questionList = questionsService.getAllQuestions();
+        StringBuilder builder = new StringBuilder();
+        getContentsString(questionList, builder);
+        StringBuilder uuIdBuilder = new StringBuilder();
+        getUuIdString(questionList, uuIdBuilder);
+        QuestionDetailsResponse questionResponse = new QuestionDetailsResponse()
+                .id(uuIdBuilder.toString())
+                .content(builder.toString());
+        return new ResponseEntity<QuestionDetailsResponse>(questionResponse, HttpStatus.OK);
+    }
+
+    /**
+     * The lines below implement the rest endpoint method to edit question content
      */
     @RequestMapping(method = RequestMethod.PUT, path = "/question/edit/{questionId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<QuestionEditResponse> editQuestionContent(QuestionEditRequest questionEditRequest, @PathVariable("questionId") final String questionId, @RequestHeader("authorization") final String authorization) throws AuthorizationFailedException, InvalidQuestionException {
