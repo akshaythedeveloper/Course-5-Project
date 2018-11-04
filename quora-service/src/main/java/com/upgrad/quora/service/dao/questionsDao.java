@@ -65,5 +65,12 @@ public class questionsDao {
         }
     }
 
+    /*** This method is used to edit the question*/
+
+    public QuestionEntity editQuestion(QuestionEntity question) {
+        entityManager.persist(question);
+        return question;
+    }
+
 
 }

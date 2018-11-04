@@ -88,5 +88,19 @@ public class QuestionController {
         return uuIdBuilder;
     }
 
+    /**
+     * The lines below implement the rest endpoint method for getting all questions
+     * The questions can be viewed only by the users who are logged in
+     */
+    @RequestMapping(method = RequestMethod.PUT, path = "/question/edit/{questionId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<QuestionEditResponse> editQuestionContent(QuestionEditRequest questionEditRequest, @PathVariable("questionId") final String questionId, @RequestHeader("authorization") final String authorization) throws AuthorizationFailedException, InvalidQuestionException {
+        UserAuthEntity authorizedUser = UsersBusinessService.getUserByAccessToken(authorization, ActionType.EDIT_QUESTION);
+        QuestionEntity question = questionsService.isUserQuestionOwner(questionId, authorizedUser, ActionType.EDIT_QUESTION);
+        question.setContent(questionEditRequest.getContent());
+        questionsService.editQuestion(question);
+        QuestionEditResponse questionEditResponse = new QuestionEditResponse().id(question.getUuid()).status("QUESTION EDITED");
+        return new ResponseEntity<QuestionEditResponse>(questionEditResponse, HttpStatus.OK);
+    }
+
 
 }

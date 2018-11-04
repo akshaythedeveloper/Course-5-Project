@@ -4,10 +4,15 @@ import com.upgrad.quora.service.dao.questionsDao;
 import com.upgrad.quora.service.dao.UsersDao;
 import com.upgrad.quora.service.entity.QuestionEntity;
 
+import com.upgrad.quora.service.entity.UserAuthEntity;
 import com.upgrad.quora.service.entity.UsersEntity;
 
+import com.upgrad.quora.service.exception.AuthorizationFailedException;
+import com.upgrad.quora.service.exception.InvalidQuestionException;
 import com.upgrad.quora.service.exception.UserNotFoundException;
 
+import com.upgrad.quora.service.type.ActionType;
+import com.upgrad.quora.service.type.RoleType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -65,6 +70,39 @@ public class questionsService {
         } else {
             return questionList;
         }
+    }
+
+    /**
+     * The method below is used to check if the question is being asked by owner of the question
+     *
+
+     */
+    @Transactional(propagation = Propagation.REQUIRED)
+    public QuestionEntity isUserQuestionOwner(String questionUuId, UserAuthEntity authorizedUser, ActionType actionType) throws AuthorizationFailedException, InvalidQuestionException {
+        QuestionEntity question = questionsDao.getQuestion(questionUuId);
+        if (question == null) {
+            throw new InvalidQuestionException("QUES-001", "Entered question uuid does not exist");
+        } else if (!question.getUser().getUuid().equals(authorizedUser.getUser().getUuid())) {
+            if (actionType.equals(ActionType.DELETE_QUESTION)) {
+                throw new AuthorizationFailedException("ATHR-003", "Only the question owner or admin can delete the question");
+            } else {
+                throw new AuthorizationFailedException("ATHR-003", "Only the question owner can edit the question");
+            }
+        } else if (!authorizedUser.getUser().getRole().equals(RoleType.admin)
+                && !question.getUser().getUuid().equals(authorizedUser.getUser().getUuid())
+                && actionType.equals(ActionType.DELETE_QUESTION)) {
+            throw new AuthorizationFailedException("ATHR-003", "Only the question owner or admin can delete the question");
+        } else {
+            return question;
+        }
+    }
+
+    /**
+     * The method below is used to edit the question.
+     */
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void editQuestion(QuestionEntity question) {
+        questionsDao.editQuestion(question);
     }
 
 
