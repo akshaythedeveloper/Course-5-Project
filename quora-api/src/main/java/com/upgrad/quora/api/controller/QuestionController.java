@@ -123,6 +123,24 @@ public class QuestionController {
         return new ResponseEntity<QuestionDeleteResponse>(questionDeleteResponse, HttpStatus.OK);
     }
 
+    /**
+     * The lines below implement the rest endpoint method to get all questions by a specific user ID
+     */
+
+    @RequestMapping(method = RequestMethod.GET, path = "/question/all/{userId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<QuestionDetailsResponse> getAllQuestionsByUser(@PathVariable("userId") final String uuId, @RequestHeader("authorization") final String authorization) throws AuthorizationFailedException, QuestionNotFoundException, UserNotFoundException {
+        UserAuthEntity authorizedUser = UsersBusinessService.getUserByAccessToken(authorization, ActionType.ALL_QUESTION_FOR_USER);
+        List<QuestionEntity> questionList = questionsService.getQuestionsForUser(uuId);
+        StringBuilder contentBuilder = new StringBuilder();
+        StringBuilder uuIdBuilder = new StringBuilder();
+        getContentsString(questionList, contentBuilder);
+        getUuIdString(questionList, uuIdBuilder);
+        QuestionDetailsResponse questionResponse = new QuestionDetailsResponse()
+                .id(uuIdBuilder.toString())
+                .content(contentBuilder.toString());
+        return new ResponseEntity<QuestionDetailsResponse>(questionResponse, HttpStatus.OK);
+    }
+
 
 
 
